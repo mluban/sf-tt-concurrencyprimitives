@@ -1,12 +1,17 @@
 package runnables;
 
 class MyJob2 implements Runnable {
-  volatile long count = 0;
+  /*volatile */long count = 0;
 
   @Override
   public void run() {
     for (int i = 0; i < 10_000; i++) {
-      count++;
+      synchronized (this) {
+//        count++;
+        long temp = count;
+        temp = temp + 1;
+        count = temp;
+      }
     }
   }
 }
